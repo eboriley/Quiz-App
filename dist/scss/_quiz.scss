@@ -1,0 +1,79 @@
+.quiz-background{
+    padding: .5rem 1rem;
+    background: #fff;
+    margin: 1rem 0;
+    border-radius: 5px;
+}
+
+.quiz--questions{
+    .question{
+        margin: .7rem 0;
+    }
+}
+
+.quiz--control{
+    display: flex;
+    justify-content: space-between;
+}
+
+.progressbar{
+    height: 4px;
+    width: 100%;
+
+    .progress{
+        width: 70%;
+        height: 100%;
+        background: var(--accent);
+    }
+}
+
+.quiz--radio{
+    margin: .4rem 0;
+    display: flex;
+
+    label{
+        width: 100%;
+        display: inline-block;
+        padding: .4rem .3rem;
+        background:#eeecca ;
+        transition: 400ms ease-in-out;
+        &:hover{
+            cursor: pointer;
+            background: #fdf899;
+        }
+    }
+}
+
+.selected-radio{
+    background: #FFEF10
+}
+
+.quiz--radio-button{
+    appearance: none;
+}
+
+.quiz--radio-button:checked+label{
+    background: #FFEF10;
+    
+}
+
+.next--button{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+
+    button{
+       padding: .3rem 1rem;
+       border: none;
+       background: var(--accent);
+       font-size: large;
+       font-family: inherit;
+       transition: 400ms ease-out;
+
+       &:hover{
+           cursor: pointer;
+           padding: .5rem 2rem;
+       }
+    }
+}

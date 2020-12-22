@@ -1,0 +1,26 @@
+Settings
+We create a class Settings to create and update user setting choices
+and save the choices in locale storage **** look to improve ????
+
+--userChoices
+    difficulty
+    number_questions
+    theme
+
+--userQuestions
+    reponse
+    json_response
+    fetchQuestions()
+
+--questions_url
+
+--questions
+
+renderQuestion()
+    resetState()
+
+getCurrentQuestion()
+
+
+
+

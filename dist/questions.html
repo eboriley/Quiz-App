@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // function Question() {
+        //     this.response;
+        //     this.jsonResponse;
+
+        //     async function fetchQuestions(url) {
+        //         this.response = await fetch(url);
+        //         if (this.response.status >= 200 && this.response.status <= 299) {
+        //             this.jsonResponse = await this.response.json();
+        //         }
+        //     }
+        // }
+
+        let myQuestions = {
+            response: "",
+            jsonResponse: "",
+            fetchQuestions: async function (url) {
+                this.response = await fetch(url);
+                if (this.response.status >= 200 && this.response.status <= 299) {
+                    this.jsonResponse = await this.response.json();
+                    return this.jsonResponse.results;
+                } else {
+                    console.log(response.status, response.statusText);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+*,
+*::after,
+*::before{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+:root{
+    --accent: #FF8000;
+}
+
+body{
+    background: #6B49F8;
+    font-family: 'Fira Sans', sans-serif;
+    width: 100%;
+    background-image: url(../images/Confetti-Doodles.svg);
+}
+
+.container{
+    padding: .5rem 1.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+// .settings{
+//     display: none;
+// }
+
+// .quiz{
+//     display: none;
+// }
+
+small{
+    color: #fff;
+}

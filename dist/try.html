@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Try</title>
+</head>
+
+<body>
+    <div class="year">
+        <p>Select your level</p>
+        <form name="difficulty">
+            <div>
+                <input type="radio" id="first" name="year" value="first">
+                <label for="first">First Year</label>
+            </div>
+            <div>
+                <input type="radio" id="second" name="year" value="second">
+                <label for="second">Second Year</label>
+            </div>
+            <div>
+                <input type="radio" id="third" name="year" value="third">
+                <label for="third">Third Year</label>
+            </div>
+        </form>
+    </div>
+    <form action="" id="num-of-questions-container">
+        <label for="number-of-questions">Enter number of questions</label>
+        <input type="text" id="number-of-questions">
+    </form>
+
+    <div class="question-container">
+        <p id="question">Are you building a quiz app?</p>
+        <!-- <div>
+            <input type="radio" id="one" name="answer" value="one">
+            <label for="one">Kinda</label>
+        </div>
+        <div>
+            <input type="radio" id="two" name="answer" value="two">
+            <label for="two">Yess!!!</label>
+        </div>
+        <div>
+            <input type="radio" id="three" name="answer" value="three">
+            <label for="three">Uhm not sure</label>
+        </div>
+        <div>
+            <input type="radio" id="four" name="answer" value="four">
+            <label for="four">IDK</label>
+        </div> -->
+    </div>
+    <div class="buttons-container">
+        <button id="back">previous</button>
+        <button id="forward">next</button>
+    </div>
+
+    <script type="module">
+        import Settings from './settings.js';
+
+        const year_selector = document.querySelector(".year");
+        const num_of_questions_container = document.getElementById('num-of-questions-container');
+        const number_of_questions = document.getElementById('number-of-questions');
+
+        const question_element = document.getElementById('question');
+        const question_container = document.querySelector(".question-container");
+
+        const back = document.getElementById('back');
+        const forward = document.getElementById('forward');
+
+        const LOCAL_STORAGE_SELECTED_YEAR = 'quiz.year';
+        const LOCAL_STORAGE_SELECTED_THEME = 'quiz.theme';
+        const LOCAL_STORAGE_SELECTED_NUMBER_OF_QUESTIONS = 'quiz.numberOfQuestions';
+        let selected_year = localStorage.getItem(LOCAL_STORAGE_SELECTED_YEAR) || 'first';
+        let dark_theme = localStorage.getItem(LOCAL_STORAGE_SELECTED_THEME) || 'light';
+        let number = localStorage.getItem(LOCAL_STORAGE_SELECTED_NUMBER_OF_QUESTIONS) || 2;
+
+
+        year_selector.addEventListener('click', event => {
+            if (event.target.tagName.toLowerCase() === 'input') {
+                selected_year = event.target.value;
+                save();
+            }
+        })
+
+        let is_dark = true;
+        function setTheme() {
+            return dark_theme = !is_dark ? "light" : "dark";
+        }
+
+        num_of_questions_container.addEventListener('submit', event => {
+            event.preventDefault();
+            number = number_of_questions.value;
+            number_of_questions.value = '';
+            save();
+        })
+
+
+        function save() {
+            localStorage.setItem(LOCAL_STORAGE_SELECTED_YEAR, selected_year);
+            localStorage.setItem(LOCAL_STORAGE_SELECTED_THEME, dark_theme);
+            localStorage.setItem(LOCAL_STORAGE_SELECTED_NUMBER_OF_QUESTIONS, number);
+        }
+
+        let setting1 = new Settings();
+        setting1.number_of_questions = number;
+        console.log("Number of questions: " + setting1.number_of_questions);
+
+        setting1.year = selected_year;
+        console.log("Year selected: " + setting1.year);
+
+        setting1.theme = setTheme();
+        console.log("Selected theme: " + setting1.theme);
+
+        let checked_radio = document.getElementById(selected_year);
+        checked_radio.checked = true;
+
+
+
+        const question_url = 'https://opentdb.com/api.php?amount=3&difficulty=easy&type=multiple';
+
+        let jsonResponse = [];
+
+        fetchQuestions(question_url);
+
+        let questions_increment = 0;
+        const selected_choices = [];
+
+        console.log(fetchQuestions)
+
+        async function fetchQuestions(questions) {
+            const response = await fetch(questions);
+            if (response.status >= 200 && response.status <= 299) {
+                jsonResponse = await response.json();
+                console.log(jsonResponse.results);
+                const current_question = getCurrentQuestion(jsonResponse.results[questions_increment]);
+                setQuestion(current_question);
+
+                forward.addEventListener('click', () => {
+                    if (questions_increment <= 2) {
+                        questions_increment += 1;
+                        console.log(questions_increment);
+                        const current_question =
+                            getCurrentQuestion(jsonResponse
+                                .results[questions_increment]);
+
+                        setQuestion(current_question);
+
+                        checkSelectedAnswer();
+                    }
+                    if (questions_increment === 3) {
+                        checkSelectedAnswer();
+                        alert('done');
+                        let score = 0;
+                        const correct_choices = selected_choices.filter(selected_choice => selected_choice.correct === true);
+                        console.log(correct_choices);
+                    }
+                })
+
+                back.addEventListener('click', () => {
+                    if (questions_increment > 0) {
+                        questions_increment -= 1;
+                        console.log(questions_increment)
+                        const current_question =
+                            getCurrentQuestion(jsonResponse
+                                .results[questions_increment]);
+
+                        setQuestion(current_question);
+
+                        checkSelectedAnswer();
+
+                    }
+                    if (questions_increment < 0) {
+                        questions_increment = 0;
+                        const current_question =
+                            getCurrentQuestion(jsonResponse
+                                .results[questions_increment]);
+
+                        setQuestion(current_question);
+                        let selected_choice =
+                            document.getElementById(selected_choices[questions_increment].text);
+                        selected_choice.checked = true;
+                    }
+                })
+
+
+                question_container.addEventListener('click', event => {
+                    let ans
+                    if (event.target.tagName.toLowerCase() === 'input') {
+                        ans = event.target.id;
+                        // console.log(ans);
+                        const current_question = getCurrentQuestion(jsonResponse.results[questions_increment]);
+                        let user_choice = current_question.answers.find((answer) => answer.text === ans);
+                        console.log(user_choice);
+                        selected_choices[questions_increment] = user_choice;
+                        console.log(selected_choices);
+                        // if (user_choice.correct) {
+                        //     alert('Correct choice')
+                        // }
+                    }
+
+                })
+
+            } else {
+                console.log(response.status, response.statusText);
+            }
+        }
+
+        console.log(jsonResponse.results);
+
+        function getCurrentQuestion(questions) {
+            if (typeof questions !== 'undefined') {
+                const temp_incorrect_ans = [...questions.incorrect_answers];
+                const answers = [{
+                    text: questions.correct_answer,
+                    correct: true
+                }, {
+                    text: temp_incorrect_ans[0],
+                    correct: false
+                }, {
+                    text: temp_incorrect_ans[1],
+                    correct: false
+                }, {
+                    text: temp_incorrect_ans[2],
+                    correct: false
+                }];
+
+                const shuffled_answers = answers.sort(() => Math.random() - .5);
+                const current_set = {
+                    question: questions.question,
+                    answers: shuffled_answers
+                }
+                return current_set;
+            }
+
+        }
+
+
+        function setQuestion(question) {
+            resetState(question_container);
+            if (typeof question !== 'undefined') {
+                question_element.innerHTML = question.question;
+                question_container.appendChild(question_element);
+                question.answers.forEach(answer => {
+                    const radio = document.createElement('input');
+                    radio.setAttribute("type", "radio");
+                    radio.setAttribute("name", "answer")
+                    radio.setAttribute("id", answer.text);
+                    const label = document.createElement("label");
+                    label.htmlFor = radio.id;
+                    label.innerHTML = answer.text
+                    question_container.appendChild(radio);
+                    question_container.appendChild(label);
+                })
+                const p = document.createElement("p");
+                p.innerHTML = "answer...";
+                question_container.appendChild(p);
+            } else {
+                question_element.innerHTML = "Congratulations";
+                question_container.appendChild(question_element);
+            }
+        }
+
+
+        function resetState(questionElement) {
+            while (questionElement.firstChild) {
+                questionElement.removeChild(questionElement.firstChild)
+            }
+        }
+
+        function checkSelectedAnswer() {
+            let nothing = selected_choices[questions_increment];
+            if (typeof nothing !== 'undefined') {
+                let selected_choice =
+                    document.getElementById(selected_choices[questions_increment].text);
+                selected_choice.checked = true;
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>

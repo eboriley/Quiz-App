@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+</head>
+<script defer src="script.js"></script>
+<link rel="stylesheet" href="css/main.css">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;200;500;700&display=swap" rel="stylesheet">
+
+<body>
+    <div class="container">
+        <div class="settings">
+            <div class="settings--difficulty">
+
+                <div class="row">
+                    <div class="radios  settings--background">
+                        <div class="settings--difficulty__header">
+                            <h3>Select difficulty</h3>
+                        </div>
+                        <div class="radio active-radio">
+                            <input class="radio-button" type="radio" id="easy" name="difficulty" value="easy">
+                            <label for="easy">Easy</label>
+                        </div>
+                        <div class="radio">
+                            <input class="radio-button" type="radio" id="medium" name="difficulty" value="medium">
+                            <label for="medium">Medium</label>
+                        </div>
+                        <div class="radio">
+                            <input class="radio-button" type="radio" id="hard" name="difficulty" value="hard">
+                            <label for="hard">Hard</label>
+                        </div>
+                        <div class="radio">
+                            <input class="radio-button" type="radio" id="Any type" name="difficulty" value="Any type">
+                            <label for="Any type">Mixed</label>
+                        </div>
+                    </div>
+
+                    <div class="settings--user-preferences  settings--background">
+                        <h3>Your Quiz</h3>
+                        <p>Difficulty: <span id="span-dif">Medium</span></p>
+                        <p>Category: <span id="span-cat">Geography</span></p>
+                        <p>Number of questions: <span id="span-num">20</span></p>
+                        <button class="start--button">Start</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="settings--categories settings--background">
+                <h3>Select a category</h3>
+                <div class="row">
+                    <div class="category category--one">
+                        <button class="active-category">Politics</button>
+                        <button>General Knowledge</button>
+                        <button>Geography</button>
+                        <button>Sports</button>
+                        <button>History</button>
+                    </div>
+                    <div class="category category--two">
+                        <button>Television</button>
+                        <button>Video Games</button>
+                        <button>Computers</button>
+                        <button>Mathematics</button>
+                        <button>Any Category</button>
+                    </div>
+                </div>
+                <div class="settings--number-selector" id="container">
+                    <div class="number-selector__header">
+                        <h3>Select Number of questions</h3>
+                    </div>
+                    <div class="range-value" id="rangeV"><span>59</span></div>
+                    <input type="range" id="number" class="number" name="number" min="5" max="30">
+                    <div class="number-selector__minmax">
+                        <p>Select a minimum of <span>5</span> or a maximum of <span>30</span></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="quiz">
+            <div class="quiz--control quiz-background">
+                <p>Question <span id="q-num">10</span>/<span id="q-numOf ">10</span> </p>
+                <p>Difficulty0 : <span id="timer">Medium</span></p>
+            </div>
+            <div class="quiz--questions quiz-background">
+                <div class="progressbar">
+                    <div class="progress"></div>
+                </div>
+                <p class="question">Who is the main character of the game Half-Life: Opposing Force?</p>
+                <div class="radios--answers">
+                    <div class="quiz--radio selected-radio">
+                        <input class="quiz--radio-button" type="radio" id="Gordon Freeman" name="answer"
+                            value="Gordon Freeman">
+                        <label for="Gordon Freeman">Gordon Freeman</label>
+                    </div>
+                    <div class="quiz--radio">
+                        <input class="quiz--radio-button" type="radio" id="Alyx Vance" name="answer" value="Alyx Vance">
+                        <label for="Alyx Vance">Alyx Vance</label>
+                    </div>
+                    <div class="quiz--radio">
+                        <input class="quiz--radio-button" type="radio" id="Adrian Shephard" name="answer"
+                            value="Adrian Shephard">
+                        <label for="Adrian Shephard">Adrian Shephard</label>
+                    </div>
+                    <div class="quiz--radio">
+                        <input class="quiz--radio-button" type="radio" id="Barney Calhoun" name="answer"
+                            value="Barney Calhoun">
+                        <label for="Barney Calhoun">Barney Calhoun</label>
+                    </div>
+                </div>
+                <div class="next--button">
+                    <button>next</button>
+                </div>
+            </div>
+        </div>
+        <small>Developed by eboriley</small>
+
+    </div>
+</body>
+
+</html>
