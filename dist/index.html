@@ -21,22 +21,27 @@
                         <div class="settings--difficulty__header">
                             <h3>Select difficulty</h3>
                         </div>
-                        <div class="radio active-radio">
-                            <input class="radio-button" type="radio" id="easy" name="difficulty" value="easy">
-                            <label for="easy">Easy</label>
-                        </div>
-                        <div class="radio">
-                            <input class="radio-button" type="radio" id="medium" name="difficulty" value="medium">
-                            <label for="medium">Medium</label>
-                        </div>
-                        <div class="radio">
-                            <input class="radio-button" type="radio" id="hard" name="difficulty" value="hard">
-                            <label for="hard">Hard</label>
-                        </div>
-                        <div class="radio">
-                            <input class="radio-button" type="radio" id="Any type" name="difficulty" value="Any type">
-                            <label for="Any type">Mixed</label>
-                        </div>
+                        <form action="" name="difficultyForm">
+                            <div class="radio active-radio">
+                                <input class="radio-button" type="radio" id="easy" name="difficulty"
+                                    value="&difficulty=easy">
+                                <label for="easy">Easy</label>
+                            </div>
+                            <div class="radio">
+                                <input class="radio-button" type="radio" id="medium" name="difficulty"
+                                    value="&difficulty=medium">
+                                <label for="medium">Medium</label>
+                            </div>
+                            <div class="radio">
+                                <input class="radio-button" type="radio" id="hard" name="difficulty"
+                                    value="&difficulty=hard">
+                                <label for="hard">Hard</label>
+                            </div>
+                            <div class="radio">
+                                <input class="radio-button" type="radio" id="any type" name="difficulty" value="">
+                                <label for="Any type">Any type</label>
+                            </div>
+                        </form>
                     </div>
 
                     <div class="settings--user-preferences  settings--background">
@@ -51,22 +56,65 @@
             </div>
             <div class="settings--categories settings--background">
                 <h3>Select a category</h3>
-                <div class="row">
-                    <div class="category category--one">
-                        <button class="active-category">Politics</button>
-                        <button>General Knowledge</button>
-                        <button>Geography</button>
-                        <button>Sports</button>
-                        <button>History</button>
+                <form action="" name="categoryform">
+                    <div class="row">
+                        <div class="category">
+                            <div class="radio-category">
+                                <input class="radio-category-input" type="radio" id="politics" name="category"
+                                    value="&category=24" data-text="Politics">
+                                <label for="politics">Politics</label>
+                            </div>
+                            <div class="radio-category">
+                                <input class="radio-category-input" type="radio" id="generalknowledge" name="category"
+                                    value="&category9" data-text="General Knowledge">
+                                <label for="generalknowledge">General Knowledge</label>
+                            </div>
+                            <div class="radio-category">
+                                <input class="radio-category-input" type="radio" id="geography" name="category"
+                                    value="&category=22" data-text="Geography">
+                                <label for="geography">Geography</label>
+                            </div>
+                            <div class="radio-category">
+                                <input class="radio-category-input" type="radio" id="sports" name="category"
+                                    value="&category=21" data-text="Sports">
+                                <label for="sports">Sports</label>
+                            </div>
+                            <div class="radio-category">
+                                <input class="radio-category-input" type="radio" id="history" name="category"
+                                    value="&category=23" data-text="History">
+                                <label for="history">History</label>
+                            </div>
+
+                        </div>
+                        <div class="category">
+                            <div class="radio-category">
+                                <input class="radio-category-input" type="radio" id="television" name="category"
+                                    value="&category=14" data-text="Television">
+                                <label for="television">Television</label>
+                            </div>
+                            <div class="radio-category">
+                                <input class="radio-category-input" type="radio" id="videogames" name="category"
+                                    value="&category=15" data-text="Video Games">
+                                <label for="videogames">Video Games</label>
+                            </div>
+                            <div class="radio-category">
+                                <input class="radio-category-input" type="radio" id="computers" name="category"
+                                    value="&category=18" data-text="Computers">
+                                <label for="computers">Computers</label>
+                            </div>
+                            <div class="radio-category">
+                                <input class="radio-category-input" type="radio" id="mathematics" name="category"
+                                    value="&category=19" data-text="Mathematics">
+                                <label for="mathematics">Mathematics</label>
+                            </div>
+                            <div class="radio-category">
+                                <input class="radio-category-input" type="radio" id="anycategory" name="category"
+                                    value="" data-text="Any Category">
+                                <label for="anycategory">Any Category</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="category category--two">
-                        <button>Television</button>
-                        <button>Video Games</button>
-                        <button>Computers</button>
-                        <button>Mathematics</button>
-                        <button>Any Category</button>
-                    </div>
-                </div>
+                </form>
                 <div class="settings--number-selector" id="container">
                     <div class="number-selector__header">
                         <h3>Select Number of questions</h3>
@@ -82,43 +130,54 @@
         </div>
         <div class="quiz">
             <div class="quiz--control quiz-background">
-                <p>Question <span id="q-num">10</span>/<span id="q-numOf ">10</span> </p>
-                <p>Difficulty0 : <span id="timer">Medium</span></p>
+                <p>Question <span id="q-num">10</span>/<span id="q-numOf">10</span> </p>
+                <p><span id="q-cat">Category</span></p>
+                <p><span id="q-dif">Medium</span></p>
             </div>
-            <div class="quiz--questions quiz-background">
+            <div class="quiz-background">
                 <div class="progressbar">
                     <div class="progress"></div>
                 </div>
-                <p class="question">Who is the main character of the game Half-Life: Opposing Force?</p>
-                <div class="radios--answers">
+                <div class="quiz--questions">
+                    <p class="question">Who is the main character of the game Half-Life: Opposing Force?</p>
+
                     <div class="quiz--radio selected-radio">
                         <input class="quiz--radio-button" type="radio" id="Gordon Freeman" name="answer"
                             value="Gordon Freeman">
-                        <label for="Gordon Freeman">Gordon Freeman</label>
+                        <label class="answer-label" for="Gordon Freeman">Gordon Freeman</label>
                     </div>
                     <div class="quiz--radio">
                         <input class="quiz--radio-button" type="radio" id="Alyx Vance" name="answer" value="Alyx Vance">
-                        <label for="Alyx Vance">Alyx Vance</label>
+                        <label class="answer-label" for="Alyx Vance">Alyx Vance</label>
                     </div>
                     <div class="quiz--radio">
                         <input class="quiz--radio-button" type="radio" id="Adrian Shephard" name="answer"
                             value="Adrian Shephard">
-                        <label for="Adrian Shephard">Adrian Shephard</label>
+                        <label class="answer-label" for="Adrian Shephard">Adrian Shephard</label>
                     </div>
                     <div class="quiz--radio">
                         <input class="quiz--radio-button" type="radio" id="Barney Calhoun" name="answer"
                             value="Barney Calhoun">
-                        <label for="Barney Calhoun">Barney Calhoun</label>
+                        <label class="answer-label" for="Barney Calhoun">Barney Calhoun</label>
                     </div>
                 </div>
+
+
                 <div class="next--button">
-                    <button>next</button>
+                    <button id="next-button">next</button>
                 </div>
             </div>
         </div>
         <small>Developed by eboriley</small>
-
     </div>
+
+
+    <template id="answer-template">
+        <div class="quiz--radio">
+            <input class="quiz--radio-button" type="radio" id="Gordon Freeman" name="answer">
+            <label class="answer-label" for="Gordon Freeman">Gordon Freeman</label>
+        </div>
+    </template>
 </body>
 
 </html>

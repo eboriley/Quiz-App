@@ -5,10 +5,9 @@
     border-radius: 5px;
 }
 
-.quiz--questions{
-    .question{
-        margin: .7rem 0;
-    }
+
+.question{
+    margin: .7rem 0;
 }
 
 .quiz--control{
@@ -31,7 +30,7 @@
     margin: .4rem 0;
     display: flex;
 
-    label{
+    .answer-label{
         width: 100%;
         display: inline-block;
         padding: .4rem .3rem;
@@ -52,7 +51,7 @@
     appearance: none;
 }
 
-.quiz--radio-button:checked+label{
+.quiz--radio-button:checked+.answer-label{
     background: #FFEF10;
     
 }
