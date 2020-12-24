@@ -1,13 +1,15 @@
 .quiz-background{
-    padding: .5rem 1rem;
+    padding: 1.5rem 1rem;
     background: #fff;
     margin: 1rem 0;
     border-radius: 5px;
 }
 
 
+
 .question{
     margin: .7rem 0;
+    animation: movein-q 300ms linear;
 }
 
 .quiz--control{
@@ -29,6 +31,8 @@
 .quiz--radio{
     margin: .4rem 0;
     display: flex;
+    animation: movein 300ms linear;
+    animation-delay: 300ms;
 
     .answer-label{
         width: 100%;
@@ -52,8 +56,13 @@
 }
 
 .quiz--radio-button:checked+.answer-label{
-    background: #FFEF10;
-    
+    background: #FFEF10;    
+}
+.quiz--radio-button:checked+.correct{
+    background: #14EBBF;    
+}
+.quiz--radio-button:checked+.wrong{
+    background: #F32828;    
 }
 
 .next--button{
@@ -72,7 +81,28 @@
 
        &:hover{
            cursor: pointer;
-           padding: .5rem 2rem;
        }
     }
+}
+
+@keyframes movein{
+    0%{
+        transform: scaleX(0);
+       transform-origin: left;
+    }
+   100%{
+       transform: scaleX(1);
+    //    transform-origin: right;
+   }
+}
+
+@keyframes movein-q{
+    0%{
+        transform: scaleY(0);
+       transform-origin: left;
+    }
+   100%{
+       transform: scaleY(1);
+       transform-origin: right;
+   }
 }

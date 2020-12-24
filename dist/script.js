@@ -120,44 +120,8 @@ const fetchQuestions = async function (url) {
         const current_question = getCurrentQuestion(jsonResponse.results[questions_increment])
         setQuestion(current_question);
 
-        next_button.addEventListener('click', () => {
-            if (questions_increment <= choice.number_of_questions - 1) {
-                questions_increment += 1;
-                console.log(questions_increment);
-                const current_question =
-                    getCurrentQuestion(jsonResponse
-                        .results[questions_increment]);
-
-                setQuestion(current_question);
-
-                checkSelectedAnswer();
-                q_num.innerHTML = questions_increment + 1;
-
-            }
-            if (questions_increment === choice.number_of_questions) {
-                checkSelectedAnswer();
-                console.log('done')
-                let score = 0;
-                const correct_choices = selected_choices.filter(selected_choice => selected_choice.correct === true);
-                console.log(correct_choices);
-            }
-        })
-
         question_container.addEventListener('click', event => {
-            let ans
-            if (event.target.tagName.toLowerCase() === 'input') {
-                ans = event.target.id;
-                // console.log(ans);
-                const current_question = getCurrentQuestion(jsonResponse.results[questions_increment]);
-                let user_choice = current_question.answers.find((answer) => answer.text === ans);
-                console.log(user_choice);
-                selected_choices[questions_increment] = user_choice;
-                console.log(selected_choices);
-                // if (user_choice.correct) {
-                //     alert('Correct choice')
-                // }
-            }
-
+            setTimeout(setUserChoices, 1500, event, jsonResponse.results);
         })
 
     } else {
@@ -217,20 +181,29 @@ function setQuestion(question) {
         question.answers.forEach(answer => {
             const each_answer = document.importNode(answer_template.content, true)
             const radio = each_answer.querySelector('input');
-            radio.id = answer.text
+            radio.id = answer.text;
             const label = each_answer.querySelector('label');
             label.className = "answer-label"
             label.htmlFor = radio.id;
             label.innerHTML = answer.text
             question_container.appendChild(each_answer);
+            if (answer.correct === true) {
+                label.classList.add('correct')
+            } else {
+                label.classList.add('wrong')
+            }
         })
     } else {
         question_element.innerHTML = "Congratulations";
         question_container.appendChild(question_element);
-
     }
 }
 
+function errorLoading(err) {
+    resetState(question_container);
+    question_element.innerHTML = `${err.status} ${err.statusText}`;
+    question_container.appendChild(question_element);
+}
 
 function resetState(questionElement) {
     while (questionElement.firstChild) {
@@ -262,3 +235,31 @@ function checkSelectedAnswer() {
     }
 }
 
+
+function setUserChoices(event, response) {
+    if (event.target.tagName.toLowerCase() === 'input') {
+        let ans = event.target.id;
+        console.log(ans)
+        let current_question = getCurrentQuestion(response[questions_increment]);
+        let user_choice = current_question.answers.find((answer) => answer.text === ans);
+        selected_choices[questions_increment] = user_choice;
+        console.log(user_choice);
+        questions_increment++;
+        current_question = getCurrentQuestion(response[questions_increment]);
+        setQuestion(current_question);
+        console.log(choice.number_of_questions);
+        console.log(questions_increment);
+        if (questions_increment == choice.number_of_questions) {
+            q_num.innerHTML = choice.number_of_questions;
+        } else {
+            q_num.innerHTML = questions_increment + 1;
+        }
+    }
+}
+
+const clicked = document.querySelectorAll(".answer-label");
+for (let i = 0; i < clicked.length; i++) {
+    clicked[i].addEventListener('click', () => {
+        clicked[i].classList.toggle("correct");
+    })
+}
