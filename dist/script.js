@@ -25,13 +25,42 @@ const question_element = document.querySelector(".question");
 const answers_container = document.querySelector(".radios--answers")
 const answer_template = document.getElementById("answer-template");
 
+const final_score = document.querySelector(".final-score");
+const attempts = document.querySelector(".attempts");
+const attempts_of = document.querySelector(".attemptsOf");
+const wrong_answers_ = document.querySelector(".wrong-ans");
+const correct_answers_ = document.querySelector(".correct-ans");
+const end_of_quiz_background = document.querySelector(".end--quiz--image");
+
+
+const quiz_container = document.querySelector(".quiz");
+const settings_container = document.querySelector(".settings");
+const final_container = document.querySelector(".end--quiz");
+
 const q_num = document.getElementById("q-num");
 const q_numOf = document.getElementById("q-numOf");
 const q_cat = document.getElementById("q-cat");
 const q_dif = document.getElementById("q-dif");
 
+const progress = document.querySelector(".progress");
+const start_button = document.querySelector(".start--button");
+const play_again = document.querySelector(".play--again");
 
-const next_button = document.getElementById('next-button');
+//--- variables for localestorage 
+const LOCAL_STORAGE_SELECTED_DIFFICULTY = 'quiz.difficulty';
+const LOCAL_STORAGE_SELECTED_CATEGORY = 'quiz.category';
+const LOCAL_STORAGE_SELECTED_NUMBER_OF_QUESTIONS = 'quiz.numberOfQuestions';
+const LOCAL_STORAGE_SELECTED_DIFFICULTY_RENDER = 'quiz.difficultyRender';
+const LOCAL_STORAGE_SELECTED_CATEGORY_RENDER = 'quiz.categoryRender';
+let selected_difficulty = localStorage.getItem(LOCAL_STORAGE_SELECTED_DIFFICULTY) || '&difficulty=easy';
+let selected_category = localStorage.getItem(LOCAL_STORAGE_SELECTED_CATEGORY) || '&category=anytype';
+let selected_number = localStorage.getItem(LOCAL_STORAGE_SELECTED_NUMBER_OF_QUESTIONS) || 10;
+let render_difficulty = localStorage.getItem(LOCAL_STORAGE_SELECTED_DIFFICULTY_RENDER) || 'Easy';
+let render_category = localStorage.getItem(LOCAL_STORAGE_SELECTED_CATEGORY_RENDER) || 'Any type';
+
+user_dif.innerHTML = render_difficulty;
+user_cat.innerHTML = render_category;
+user_num.innerHTML = selected_number;
 
 //---number of questions range selector functionality--- 
 const setValue = () => {
@@ -42,40 +71,55 @@ const setValue = () => {
     rangeValue.style.left = `calc(${newValue}% + 
     (${newPostion}px))`;
     user_num.innerHTML = range.value;
+    selected_number = range.value;
+    save();
 }
 document.addEventListener("DOMContentLoaded", setValue);
 range.addEventListener('input', setValue);
 
+for (let i = 0; i < category_radios.length; i++) {
+    console.log(category_radios[i].dataset.text);
+}
 
 //--- user difficulty choice functionality ---
-user_dif.innerHTML = getUserDifficultyChoice();
 for (let i = 0; i < difficulty_radios.length; i += 1) {
+    if (difficulty_radios[i].value === selected_difficulty) {
+        difficulty_radios[i].checked = true;
+    }
     difficulty_radios[i].addEventListener('click', () => {
         for (let i = 0; i < difficulty_radios.length; i += 1) {
             if (difficulty_radios[i].checked === true) {
                 user_dif.innerHTML = getUserDifficultyChoice();
+                render_difficulty = getUserDifficultyChoice();
+                updateUserChoices();
+                save();
             }
         }
     });
 }
 
 
+
 function getUserDifficultyChoice() {
     for (let i = 0; i < difficulty_radios.length; i += 1) {
         if (difficulty_radios[i].checked === true) {
-            return difficulty_radios[i].id;
+            return difficulty_radios[i].dataset.text;
         }
     }
 }
 
 //--- user category choice functionality ---
-
-user_cat.innerHTML = getUserCategoryChoice();
 for (let i = 0; i < category_radios.length; i += 1) {
+    if (category_radios[i].value === selected_category) {
+        category_radios[i].checked = true;
+    }
     category_radios[i].addEventListener('click', () => {
         for (let j = 0; j < category_radios.length; j += 1) {
             if (category_radios[j].checked === true) {
                 user_cat.innerHTML = getUserCategoryChoice();
+                render_category = getUserCategoryChoice();
+                updateUserChoices();
+                save();
             }
         }
     });
@@ -90,27 +134,10 @@ function getUserCategoryChoice() {
 }
 
 
-
-const Choices = function (difficulty, number_of_questions, theme) {
-    this.difficulty = "&difficulty=easy";
-    this.number_of_questions = 10;
-    this.category = "";
-};
-
-Choices.prototype.getDifficulty = function () {
-    return this.difficulty;
-}
-Choices.prototype.getNumberOfQuestions = function () {
-    return this.number_of_questions;
-}
-Choices.prototype.getCategory = function () {
-    return this.category;
-}
-
-
-
 let questions_increment = 0;
 const selected_choices = [];
+let width = 0;
+
 
 const fetchQuestions = async function (url) {
     const response = await fetch(url);
@@ -119,6 +146,8 @@ const fetchQuestions = async function (url) {
         console.log(jsonResponse.results)
         const current_question = getCurrentQuestion(jsonResponse.results[questions_increment])
         setQuestion(current_question);
+
+        setInterval(setProgress, 160, jsonResponse.results)
 
         question_container.addEventListener('click', event => {
             setTimeout(setUserChoices, 1500, event, jsonResponse.results);
@@ -129,21 +158,25 @@ const fetchQuestions = async function (url) {
     }
 }
 
-let choice = new Choices();
-choice.number_of_questions = range.value;
-choice.difficulty = getUserDifficultyChoiceValue();
-choice.category = getUserCategoryChoiceValue();
 
 q_num.innerHTML = questions_increment + 1;
-q_numOf.innerHTML = choice.number_of_questions;
-q_cat.innerHTML = getUserCategoryChoice();
-q_dif.innerHTML = getUserDifficultyChoice();
+q_numOf.innerHTML = selected_number;
 
+start_button.addEventListener('click', () => {
+    const question_url = prepareURL(selected_number, selected_difficulty, selected_category);
+    console.log(question_url);
+    q_numOf.innerHTML = selected_number;
+    q_cat.innerHTML = getUserCategoryChoice();
+    q_dif.innerHTML = getUserDifficultyChoice();
+    save();
+    fetchQuestions(question_url);
+    settings_container.style.display = 'none';
+    quiz_container.style.display = 'block';
+})
 
-const question_url = `https://opentdb.com/api.php?amount=${choice.number_of_questions}
-${choice.difficulty}&type=multiple${choice.category}`;
-
-fetchQuestions(question_url);
+play_again.addEventListener('click', () => {
+    location.reload();
+})
 
 function getCurrentQuestion(questions) {
     if (typeof questions !== 'undefined') {
@@ -169,7 +202,6 @@ function getCurrentQuestion(questions) {
         }
         return current_set;
     }
-
 }
 
 
@@ -194,8 +226,7 @@ function setQuestion(question) {
             }
         })
     } else {
-        question_element.innerHTML = "Congratulations";
-        question_container.appendChild(question_element);
+        displayFinalScreen();
     }
 }
 
@@ -247,19 +278,96 @@ function setUserChoices(event, response) {
         questions_increment++;
         current_question = getCurrentQuestion(response[questions_increment]);
         setQuestion(current_question);
-        console.log(choice.number_of_questions);
         console.log(questions_increment);
-        if (questions_increment == choice.number_of_questions) {
-            q_num.innerHTML = choice.number_of_questions;
+        if (questions_increment == selected_number) {
+            q_num.innerHTML = selected_number;
+        } else {
+            q_num.innerHTML = questions_increment + 1;
+        }
+        width = 0;
+    }
+}
+
+function setProgress(response) {
+    if (width < 100) {
+        width++
+        progress.style.width = `${width}%`;
+    }
+    if (width === 100) {
+        width = 0
+        progress.style.width = `${width}%`;
+        const current_question = getCurrentQuestion(response[questions_increment + 1]);
+        questions_increment++
+        setQuestion(current_question);
+        if (questions_increment == selected_number) {
+            q_num.innerHTML = selected_number;
         } else {
             q_num.innerHTML = questions_increment + 1;
         }
     }
+    if (questions_increment == selected_number) {
+        clearInterval();
+        width = 101;
+        progress.style.width = `0`;
+    }
 }
 
-const clicked = document.querySelectorAll(".answer-label");
-for (let i = 0; i < clicked.length; i++) {
-    clicked[i].addEventListener('click', () => {
-        clicked[i].classList.toggle("correct");
-    })
+
+function save() {
+    localStorage.setItem(LOCAL_STORAGE_SELECTED_DIFFICULTY, selected_difficulty);
+    localStorage.setItem(LOCAL_STORAGE_SELECTED_CATEGORY, selected_category);
+    localStorage.setItem(LOCAL_STORAGE_SELECTED_NUMBER_OF_QUESTIONS, selected_number);
+    localStorage.setItem(LOCAL_STORAGE_SELECTED_DIFFICULTY_RENDER, render_difficulty);
+    localStorage.setItem(LOCAL_STORAGE_SELECTED_CATEGORY_RENDER, render_category);
+}
+
+function updateUserChoices() {
+    selected_number = range.value;
+    selected_difficulty = getUserDifficultyChoiceValue();
+    selected_category = getUserCategoryChoiceValue();
+}
+
+function prepareURL(num, diff, cat) {
+    if (diff === "&difficulty=anytype") {
+        diff = "";
+    }
+    if (cat === "&category=anytype") {
+        cat = ""
+    }
+    const url = `https://opentdb.com/api.php?amount=${num}${diff}&type=multiple${cat}`;
+    return url;
+}
+
+function getScoreString(num) {
+    const number = num === 1 ? "answer" : "answers";
+    return number;
+}
+
+
+
+function displayFinalScreen() {
+    quiz_container.style.display = 'none';
+    final_container.style.display = 'block';
+    const correct_answers = selected_choices.filter(choice => choice.correct === true);
+    const percentage_score = (correct_answers.length / selected_number) * 100;
+    if (percentage_score > 79) {
+        end_of_quiz_background.style.backgroundImage = 'url("./images/026-medal.png")';
+    }
+    if (percentage_score <= 79) {
+        end_of_quiz_background.style.backgroundImage = 'url("./images/019-medal.png")';
+    }
+    if (percentage_score <= 69 && percentage_score >= 50) {
+        end_of_quiz_background.style.backgroundImage = 'url("./images/049-medal.png")';
+    }
+    if (percentage_score <= 49) {
+        end_of_quiz_background.style.backgroundImage = `none`;
+        end_of_quiz_background.style.padding = `0`;
+    }
+    const attempted = selected_choices.filter(choice => choice !== "");
+    final_score.innerHTML = `${Math.floor(percentage_score)}`;
+    attempts_of.innerHTML = `${selected_number}`;
+    attempts.innerHTML = `${attempted.length}`;
+    correct_answers_.innerHTML = `${correct_answers.length} correct ${getScoreString(correct_answers.length)}`;
+    const wrong_answers = attempted.length - correct_answers.length;
+    wrong_answers_.innerHTML = `${wrong_answers} wrong ${getScoreString(wrong_answers)}`;
 }

@@ -1,0 +1,106 @@
+.end--quiz--background{
+    background: rgba(255, 255, 255, 0.13);
+    padding: .5rem 1rem;
+    border-radius: 5px;
+    margin: 1rem 0;
+}
+
+.end--quiz{
+    h2{
+        text-align: center;
+        color: var(--accent);
+        font-size: 2rem;
+    }
+    display: none;
+}
+
+.score{
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.end--quiz--image{
+    background-image: url("../images/026-medal.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 11rem;
+    width: 100%;
+    padding: 7rem 0;
+    animation: spin 2s infinite linear;
+}
+.attempt{
+    color: #fff;
+    text-align: center;
+    margin-bottom: .5rem;
+}
+
+.end--quiz--ticks{
+    display: flex;  
+    justify-content: center; 
+    margin: .250rem 0;
+    .ans{
+        color: #fff;
+    }
+    img{
+        width: 1rem;
+        margin-left: 1.5rem;
+    }
+}
+
+.play--again{
+    margin-top: 2rem;
+    background: #fff;
+    padding: 1.1rem 0;
+    background: #14EBBF;
+    p{
+        text-align: center;
+        color: #fff;
+        font-weight: 700;
+        letter-spacing: .2em;
+    }
+}
+.play--again-buttons-container{
+    display: flex;
+    justify-content: space-evenly;
+}
+.play--again-button{
+    width: 20px;
+    height: 20px;
+    padding: 1.5rem;
+    border-radius: 50%;
+    transition: 350ms transform ease-out;
+    
+
+    &:hover{
+        transform: rotate(45deg);
+    }
+}
+
+.yes{
+    background: #14EBBF;
+    background-image: url("../images/long-check-mark.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 2rem;
+    position: relative;
+}
+
+.no{
+    background:  #F32828;
+    background-image: url("../images/cancel-mark.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 1.8rem;
+}
+
+.play--again-button+.play--again-button{
+    margin-left: 1rem
+}
+
+@keyframes spin{
+    100%{
+        transform: rotateY(360deg);
+    }
+}
