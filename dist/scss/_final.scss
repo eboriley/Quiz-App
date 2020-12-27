@@ -60,6 +60,10 @@
         font-weight: 700;
         letter-spacing: .2em;
     }
+
+    &:hover{
+        cursor: pointer;
+    }
 }
 .play--again-buttons-container{
     display: flex;

@@ -533,6 +533,10 @@ small {
   letter-spacing: .2em;
 }
 
+.play--again:hover {
+  cursor: pointer;
+}
+
 .play--again-buttons-container {
   display: -webkit-box;
   display: -ms-flexbox;
