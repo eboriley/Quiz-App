@@ -325,7 +325,7 @@ small {
 }
 
 .progressbar .progress {
-  width: 70%;
+  width: 0;
   height: 100%;
   background: var(--accent);
 }

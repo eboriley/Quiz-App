@@ -140,64 +140,47 @@
                     <div class="progress"></div>
                 </div>
                 <div class="quiz--questions">
-                    <p class="question">Who is the main character of the game Half-Life: Opposing Force?</p>
+                    <p class="question"></p>
 
                     <div class="quiz--radio selected-radio">
-                        <input class="quiz--radio-button" type="radio" id="Gordon Freeman" name="answer"
-                            value="Gordon Freeman">
-                        <label class="answer-label" for="Gordon Freeman">Gordon Freeman</label>
                     </div>
-                    <div class="quiz--radio">
-                        <input class="quiz--radio-button" type="radio" id="Alyx Vance" name="answer" value="Alyx Vance">
-                        <label class="answer-label" for="Alyx Vance">Alyx Vance</label>
+
+                </div>
+                <small>Developed by eboriley</small>
+            </div>
+            <div class="end--quiz">
+                <div class="end-quiz--container end--quiz--background">
+                    <h2>Completed</h2>
+                    <div class="end--quiz--image">
                     </div>
-                    <div class="quiz--radio">
-                        <input class="quiz--radio-button" type="radio" id="Adrian Shephard" name="answer"
-                            value="Adrian Shephard">
-                        <label class="answer-label" for="Adrian Shephard">Adrian Shephard</label>
+                    <h3 class="score">Score <span class="final-score">89</span>%</h3>
+                    <p class="attempt"><span class="attempts">4</span>/<span class="attemptsOf">5</span> questions
+                        attempted
+                    </p>
+                    <div class="end--quiz--ticks">
+                        <p class="correct-ans ans">correct answers</p>
+                        <img src="images/check.svg" alt="correct_mark">
                     </div>
-                    <div class="quiz--radio">
-                        <input class="quiz--radio-button" type="radio" id="Barney Calhoun" name="answer"
-                            value="Barney Calhoun">
-                        <label class="answer-label" for="Barney Calhoun">Barney Calhoun</label>
+                    <div class="end--quiz--ticks">
+                        <p class="wrong-ans ans">wrong answers</p>
+                        <img src="images/cancel.svg" alt="wrong-mark">
                     </div>
                 </div>
 
-            </div>
-            <small>Developed by eboriley</small>
-        </div>
-        <div class="end--quiz">
-            <div class="end-quiz--container end--quiz--background">
-                <h2>Completed</h2>
-                <div class="end--quiz--image">
-                </div>
-                <h3 class="score">Score <span class="final-score">89</span>%</h3>
-                <p class="attempt"><span class="attempts">4</span>/<span class="attemptsOf">5</span> questions attempted
-                </p>
-                <div class="end--quiz--ticks">
-                    <p class="correct-ans ans">correct answers</p>
-                    <img src="images/check.svg" alt="correct_mark">
-                </div>
-                <div class="end--quiz--ticks">
-                    <p class="wrong-ans ans">wrong answers</p>
-                    <img src="images/cancel.svg" alt="wrong-mark">
+                <div class="play--again end--quiz--background">
+                    <p>Try again?</p>
                 </div>
             </div>
+        </div>
 
-            <div class="play--again end--quiz--background">
-                <p>Try again?</p>
+
+        <template id="answer-template">
+            <div class="quiz--radio">
+                <input class="quiz--radio-button" type="radio" id="Gordon Freeman" name="answer">
+                <label class="answer-label" for="Gordon Freeman">Gordon Freeman</label>
             </div>
-        </div>
-    </div>
-
-
-    <template id="answer-template">
-        <div class="quiz--radio">
-            <input class="quiz--radio-button" type="radio" id="Gordon Freeman" name="answer">
-            <label class="answer-label" for="Gordon Freeman">Gordon Freeman</label>
-        </div>
-    </template>
-    <script defer src="script.js"></script>
+        </template>
+        <script defer src="script.js"></script>
 </body>
 
 </html>
