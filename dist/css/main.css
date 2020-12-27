@@ -560,7 +560,7 @@ small {
 
 .yes {
   background: #14EBBF;
-  background-image: url("../images/long-check-mark.svg");
+  background-image: url("./images/long-check-mark.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 2rem;
@@ -569,7 +569,7 @@ small {
 
 .no {
   background: #F32828;
-  background-image: url("../images/cancel-mark.svg");
+  background-image: url("./images/cancel-mark.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 1.8rem;
