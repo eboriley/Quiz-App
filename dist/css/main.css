@@ -331,7 +331,7 @@ small {
 }
 
 .quiz--radio {
-  margin: .4rem 0;
+  margin: .8rem 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
